@@ -1,0 +1,123 @@
+Installation  ruby and rails
+
+
+Install Dependencies
+First, we should update “apt-get” using the command below:
+
+apt-get update
+Next, install the required dependencies for “rbenv” and “Ruby”:
+
+apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev curl git-core -y
+Once the installation of dependencies finished we can go on and install “rbenv” itself.
+
+Install rbenv
+Now, we can install “rbenv” through “Git” with the command below:
+
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+You have to add “~/.rbenv/bin” to your executable path, also you can add “~/.rbenv/bin/rbenv init” to your “~/.bash_profile” so rbenv can start automatically:
+
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+Source rbenv by typing:
+
+source ~/.bashrc
+You can check if your rbenv is working properly by executing:
+
+type rbenv
+Your terminal window should get you the following output:
+
+rbenv is a function
+rbenv () 
+{ 
+    local command;
+    command="$1";
+    if [ "$#" -gt 0 ]; then
+        shift;
+    fi;
+    case "$command" in 
+        rehash | shell)
+            eval "$(rbenv "sh-$command" "$@")"
+        ;;
+        *)
+            command rbenv "$command" "$@"
+        ;;
+    esac
+}
+You should install “ruby-build” plugin in order to install various versions of Ruby:
+
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+Install Ruby
+Now, we can install various versions of Ruby that we may need through a simple command.
+
+You can list available version of Ruby with the command below:
+
+rbenv install -l
+The output should be a long list of available versions that you can choose to install.
+
+We are going to install the latest stable version of Ruby which is 2.4.1
+
+rbenv install 2.4.1
+The installation process may take a few minutes so be patient.
+
+After the installation process is done, we can set the installed version as our default version using the command below:
+
+rbenv global 2.4.1
+you can check your Ruby version using the “-v” flag:
+
+ruby -v
+The output should be something like below:
+
+ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-linux]
+Install Gems
+Gems are packages that extend the functionality of Ruby, we would want to install Rails through Gem.
+
+So that the process of installing Rails is less lengthy, we will turn off local documentation for each gem we install. We will also install the bundler gem to manage application dependencies:
+
+echo "gem: --no-document" > ~/.gemrc
+gem install bundler
+Install Rails
+For installing the latest version of Rails type:
+
+gem install rails
+If you want to install a specific version of rails you can get a list of available versions with the command below:
+
+gem search '^rails$' --all
+For installing the preferred version type:
+
+gem install rails -v 4.2.7
+Check your Rails version using the command below:
+
+rails -v
+Updating your rbenv
+As we installed rbenv manually using “Git” we can upgrade it to the most recent version at any time:
+
+cd ~/.rbenv
+git pull
+
+------------------------------------------------------------------------------------------------
+
+MIGRATION :
+
+create a table example :
+rails g migration CreatePostsTable title:string content:text
+
+migrate in mysql example :
+rails db:migrate
+
+rollback example :
+rails db:rollback
+
+add timestamps in migrate file example :
+
+class CreatePostsTable < ActiveRecord::Migration[5.2]
+  def change
+    create_table :posts do |t|
+      t.string :title
+      t.text :content, limit: 4294967295
+      t.timestamps
+    end
+  end
+end
+
+------------------------------------------------------------------------------------------------
